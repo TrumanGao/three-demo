@@ -1,17 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import "./style/index.less";
+import ape from "./assets/ape.svg";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+function component() {
+  const element = document.createElement("div");
+  element.setAttribute("id", "app");
+  element.style.backgroundImage = `url(${ape})`;
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  // Lodash, currently included via a script, is required for this line to work
+  element.innerHTML = "Hello World";
+
+  return element;
+}
+
+document.body.appendChild(component());
