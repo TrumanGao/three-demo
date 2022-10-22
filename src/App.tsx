@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./style/index.less";
 import ape from "./assets/ape.svg";
-import { Three } from "./components/three/three.jsx";
+import { Three } from "./components/three/three";
 
 export const App = () => {
   const [date, setDate] = useState(new Date().toString());
   useEffect(() => {
-    setInterval(() => {
+    const timer = setInterval(() => {
       setDate(new Date().toString());
     }, 1000);
-  });
+
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="app" style={{ backgroundImage: `url(${ape})` }}>
