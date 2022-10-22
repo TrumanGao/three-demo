@@ -9,6 +9,7 @@ import {
   BoxGeometry,
   PointLight,
 } from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export const Three = () => {
   useEffect(() => {
@@ -32,19 +33,33 @@ export const Three = () => {
       1000
     );
 
-    // 创建立方体，添加进场景
-    const geometry = new BoxGeometry(2, 2, 2);
-    const meterial = new MeshLambertMaterial({ color: 0x00ff00 });
-    const cube = new Mesh(geometry, meterial);
-    scene.add(cube);
-
-    // 调整摄像机位置
-    camera.position.z = 5;
-
     // 创建光线，添加进场景
     const light = new PointLight();
     light.position.set(50, 50, 50);
     scene.add(light);
+
+    // 一、创建立方体，添加进场景，并调整摄像机位置
+    const geometry = new BoxGeometry(2, 2, 2);
+    const meterial = new MeshLambertMaterial({ color: 0x00ff00 });
+    const cube = new Mesh(geometry, meterial);
+    scene.add(cube);
+    camera.position.z = 5;
+
+    // 二、导入gltf
+    const loader = new GLTFLoader();
+    // loader.load(
+    //   "**.gltf",
+    //   function (gltf) {
+    //     console.log("gltf: ", gltf);
+    //     scene.add(gltf.scene);
+    //   },
+    //   function (xhr) {
+    //     console.log("xhr: ", xhr);
+    //   },
+    //   function (error) {
+    //     console.log("error: ", error);
+    //   }
+    // );
 
     function animate() {
       requestAnimationFrame(animate);
