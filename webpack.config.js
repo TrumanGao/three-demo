@@ -37,6 +37,12 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
+        exclude: [/node_modules/, /src\/assets\/models/],
+      },
+      {
+        test: /\.(glt|gltf|obj)$/i,
+        type: "asset/resource",
+        include: /src\/assets\/models/,
       },
     ],
   },

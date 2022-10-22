@@ -10,6 +10,7 @@ import {
   PointLight,
 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import BlackDragon from "../../assets/models/black_dragon/scene.gltf";
 
 export const Three = () => {
   useEffect(() => {
@@ -47,19 +48,19 @@ export const Three = () => {
 
     // 二、导入gltf
     const loader = new GLTFLoader();
-    // loader.load(
-    //   "**.gltf",
-    //   function (gltf) {
-    //     console.log("gltf: ", gltf);
-    //     scene.add(gltf.scene);
-    //   },
-    //   function (xhr) {
-    //     console.log("xhr: ", xhr);
-    //   },
-    //   function (error) {
-    //     console.log("error: ", error);
-    //   }
-    // );
+    loader.load(
+      BlackDragon,
+      function (gltf) {
+        console.log("gltf: ", gltf);
+        scene.add(gltf.scene);
+      },
+      function (xhr) {
+        console.log("xhr: ", xhr);
+      },
+      function (error) {
+        console.log("error: ", error);
+      }
+    );
 
     function animate() {
       requestAnimationFrame(animate);
