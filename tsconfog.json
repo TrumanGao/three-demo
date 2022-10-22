@@ -9,5 +9,6 @@
     "allowJs": true,
     "moduleResolution": "node"
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "include": ["./src/global.d.ts"]
 }
