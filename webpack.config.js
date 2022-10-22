@@ -22,27 +22,27 @@ module.exports = {
       {
         test: /\.(js|jsx|ts|tsx)$/,
         use: "babel-loader",
-        exclude: /node_modules/,
+        exclude: path.resolve(__dirname, "node_modules"),
       },
       {
         test: /\.(css|less)$/i,
         use: ["style-loader", "css-loader"],
-        exclude: /node_modules/,
+        exclude: path.resolve(__dirname, "node_modules"),
       },
       {
         test: /\.less$/i,
         use: ["less-loader"],
-        exclude: /node_modules/,
+        exclude: path.resolve(__dirname, "node_modules"),
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
-        exclude: [/node_modules/, /src\/assets\/models/],
+        exclude: path.resolve(__dirname, "node_modules"),
       },
       {
-        test: /\.(glt|gltf|obj)$/i,
+        test: /\.(glt|gltf|obj|glb)$/i,
         type: "asset/resource",
-        include: /src\/assets\/models/,
+        exclude: path.resolve(__dirname, "node_modules"),
       },
     ],
   },

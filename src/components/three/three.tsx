@@ -10,7 +10,8 @@ import {
   PointLight,
 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import BlackDragon from "../../assets/models/black_dragon/scene.gltf";
+import Flower from "../../assets/models/flower.glb";
+import Land from "../../assets/models/land.glb";
 
 export const Three = () => {
   useEffect(() => {
@@ -43,13 +44,14 @@ export const Three = () => {
     const geometry = new BoxGeometry(2, 2, 2);
     const meterial = new MeshLambertMaterial({ color: 0x00ff00 });
     const cube = new Mesh(geometry, meterial);
-    scene.add(cube);
+    // scene.add(cube);
     camera.position.z = 5;
 
     // 二、导入gltf
     const loader = new GLTFLoader();
     loader.load(
-      BlackDragon,
+      Flower,
+      // Land,
       function (gltf) {
         console.log("gltf: ", gltf);
         scene.add(gltf.scene);

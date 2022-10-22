@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style/index.less";
-import ape from "./assets/ape.svg";
+import ape from "./assets/images/ape.svg";
 import { Three } from "./components/three/three";
 
 export const App = () => {
