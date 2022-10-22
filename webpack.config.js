@@ -6,6 +6,7 @@ module.exports = {
   entry: "./src/index.ts",
   output: {
     filename: "[hash].bundle.js",
+    assetModuleFilename: "assets/[name][ext]",
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
