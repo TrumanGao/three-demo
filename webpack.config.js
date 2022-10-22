@@ -16,14 +16,19 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(js|jsx)$/,
+        use: "babel-loader",
+        exclude: /node_modules/,
+      },
+      {
         test: /\.(css|less)$/i,
         use: ["style-loader", "css-loader"],
-        exclude: path.resolve(__dirname, "node_modules"),
+        exclude: /node_modules/,
       },
       {
         test: /\.less$/i,
         use: ["less-loader"],
-        exclude: path.resolve(__dirname, "node_modules"),
+        exclude: /node_modules/,
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,

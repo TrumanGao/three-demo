@@ -1,15 +1,9 @@
-import "./style/index.less";
-import ape from "./assets/ape.svg";
+import React, { createElement } from "react";
+import { createRoot } from "react-dom/client";
+import { App } from "./App";
 
-function component() {
-  const element = document.createElement("div");
-  element.setAttribute("id", "app");
-  element.style.backgroundImage = `url(${ape})`;
+const root = document.createElement("div");
+root.setAttribute("id", "root");
+document.body.appendChild(root);
 
-  // Lodash, currently included via a script, is required for this line to work
-  element.innerHTML = "Hello World";
-
-  return element;
-}
-
-document.body.appendChild(component());
+createRoot(root).render(createElement(App));
