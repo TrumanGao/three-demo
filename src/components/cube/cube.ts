@@ -1,10 +1,13 @@
-import { BoxGeometry, MeshLambertMaterial, Mesh } from "three";
+import { BoxGeometry, MeshLambertMaterial, Mesh, AxesHelper } from "three";
 
 // 一、创建立方体，添加进场景，并调整摄像机位置
 export function setCube() {
   const geometry = new BoxGeometry(1, 1, 1);
   const meterial = new MeshLambertMaterial({ color: "#a52a2a" });
   const cube = new Mesh(geometry, meterial);
+
+  const axes = new AxesHelper(2);
+  cube.add(axes);
 
   transformCube(cube);
 

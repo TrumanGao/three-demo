@@ -54,7 +54,7 @@ export const Three = () => {
     new OrbitControls(camera, renderer.domElement);
 
     // 创建物体
-    if (new Date().getHours() % 5) {
+    if (new Date().getHours() % 2) {
       const cube = setCube();
       scene.add(cube);
     } else {

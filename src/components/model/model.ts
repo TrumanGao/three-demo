@@ -1,4 +1,4 @@
-import { Group } from "three";
+import { Group, AxesHelper } from "three";
 import {
   GLTFLoader,
   type GLTF,
@@ -15,6 +15,9 @@ export function setModel() {
       Model,
       (gltf: GLTF) => {
         console.log("导入模型gltf: ", gltf);
+
+        const axes = new AxesHelper(4);
+        gltf.scene.add(axes);
 
         transformModel(gltf.scene);
 
