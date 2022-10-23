@@ -5,7 +5,6 @@ declare module "*.jpg";
 declare module "*.jpeg";
 declare module "*.gif";
 // 模型
-declare module "*.glt";
+declare module "*.glb";
 declare module "*.gltf";
 declare module "*.obj";
-declare module "*.glb";

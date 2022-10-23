@@ -40,7 +40,7 @@ module.exports = {
         exclude: path.resolve(__dirname, "node_modules"),
       },
       {
-        test: /\.(glt|gltf|obj|glb)$/i,
+        test: /\.(glb|gltf|obj)$/i,
         type: "asset/resource",
         exclude: path.resolve(__dirname, "node_modules"),
       },
