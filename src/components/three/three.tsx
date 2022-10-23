@@ -7,6 +7,7 @@ import {
   DirectionalLight,
 } from "three";
 import "./three.less";
+import Stat from "three/examples/jsm/libs/stats.module";
 import { addModel } from "../model/model";
 import { addCube } from "../cube/cube";
 
@@ -23,6 +24,10 @@ export const Three = () => {
     );
     renderer.setClearColor(0xffffff);
     threeContainer?.appendChild(renderer.domElement);
+
+    // 帧率检测
+    const stat = Stat();
+    threeContainer?.appendChild(stat.domElement);
 
     // 创建场景
     const scene = new Scene();
@@ -59,6 +64,7 @@ export const Three = () => {
     function animate() {
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
+      stat.update();
     }
     animate();
   }, []);
