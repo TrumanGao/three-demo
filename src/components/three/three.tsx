@@ -7,11 +7,15 @@ import {
   Mesh,
   MeshLambertMaterial,
   BoxGeometry,
-  PointLight,
+  AmbientLight,
+  DirectionalLight,
 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+
 import Flower from "../../assets/models/flower.glb";
 import Land from "../../assets/models/land.glb";
+import BlackDragon from "../../assets/models/black_dragon.glb";
+import BlackDread from "../../assets/models/black_dread.glb";
 
 export const Three = () => {
   // 一、创建立方体，添加进场景，并调整摄像机位置
@@ -37,8 +41,10 @@ export const Three = () => {
     const loader = new GLTFLoader();
     return new Promise((resolve, reject) => {
       loader.load(
-        Flower,
+        // Flower,
         // Land,
+        // BlackDragon,
+        BlackDread,
         function (gltf) {
           console.log("导入花模型gltf: ", gltf);
           _scene.add(gltf.scene);
@@ -59,9 +65,9 @@ export const Three = () => {
   // 花运动
   function animateFlower(_flower) {
     requestAnimationFrame(() => {
-      _flower.rotation.x += 0.01;
-      _flower.rotation.y += 0.02;
-      animateCube(_flower);
+      // _flower.rotation.x += 0.001;
+      _flower.rotation.y += 0.002;
+      animateFlower(_flower);
     });
   }
 
@@ -73,6 +79,7 @@ export const Three = () => {
       threeContainer?.clientWidth || 0,
       threeContainer?.clientHeight || 0
     );
+    renderer.setClearColor(0xffffff);
     threeContainer?.appendChild(renderer.domElement);
 
     // 创建场景
@@ -87,16 +94,18 @@ export const Three = () => {
     );
 
     // 创建光线，添加进场景
-    const light = new PointLight();
-    light.position.set(50, 50, 50);
-    scene.add(light);
+    const ambientLight = new AmbientLight(0x404040);
+    const directionLight = new DirectionalLight(0xffffff, 0.5);
+    ambientLight.position.set(50, 50, 50);
+    scene.add(ambientLight);
+    scene.add(directionLight);
 
     // 一、导入立方体
-    addCube(scene, camera);
+    // addCube(scene, camera);
     // 二、导入模型
     addFlower(scene);
     // 调整摄像机位置
-    camera.position.z = 5;
+    camera.position.z = 900;
 
     // 执行渲染D
     function animate() {
