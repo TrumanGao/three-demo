@@ -1,79 +1,21 @@
 import React, { useEffect } from "react";
-import "./three.less";
 import {
   Scene,
   PerspectiveCamera,
   WebGLRenderer,
-  Mesh,
-  MeshLambertMaterial,
-  BoxGeometry,
   AmbientLight,
   DirectionalLight,
 } from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-
-import Flower from "../../assets/models/flower.glb";
-import Land from "../../assets/models/land.glb";
-import BlackDragon from "../../assets/models/black_dragon.glb";
-import BlackDread from "../../assets/models/black_dread.glb";
+import "./three.less";
+import { addModel } from "../model/model";
+import { addCube } from "../cube/cube";
 
 export const Three = () => {
-  // 一、创建立方体，添加进场景，并调整摄像机位置
-  function addCube(_scene, _camera) {
-    const geometry = new BoxGeometry(1, 1, 1);
-    const meterial = new MeshLambertMaterial({ color: "#a52a2a" });
-    const cube = new Mesh(geometry, meterial);
-    _scene.add(cube);
-    animateCube(cube);
-
-    return cube;
-  }
-  // 立方体运动
-  function animateCube(_cube) {
-    requestAnimationFrame(() => {
-      _cube.rotation.x += 0.01;
-      _cube.rotation.y += 0.02;
-      animateCube(_cube);
-    });
-  }
-  // 二、导入花模型
-  function addFlower(_scene) {
-    const loader = new GLTFLoader();
-    return new Promise((resolve, reject) => {
-      loader.load(
-        // Flower,
-        // Land,
-        // BlackDragon,
-        BlackDread,
-        function (gltf) {
-          console.log("导入花模型gltf: ", gltf);
-          _scene.add(gltf.scene);
-          animateFlower(gltf.scene);
-
-          resolve(gltf.scene);
-        },
-        function (xhr) {
-          console.log("导入花模型xhr: ", xhr);
-        },
-        function (error) {
-          console.log("导入花模型error: ", error);
-          reject(error);
-        }
-      );
-    });
-  }
-  // 花运动
-  function animateFlower(_flower) {
-    requestAnimationFrame(() => {
-      // _flower.rotation.x += 0.001;
-      _flower.rotation.y += 0.002;
-      animateFlower(_flower);
-    });
-  }
-
   useEffect(() => {
-    // 创建容器
+    // 获取容器
     const threeContainer = document.querySelector(".three-container");
+
+    // 渲染器
     const renderer = new WebGLRenderer();
     renderer.setSize(
       threeContainer?.clientWidth || 0,
@@ -87,7 +29,7 @@ export const Three = () => {
 
     // 创建摄像机
     const camera = new PerspectiveCamera(
-      75,
+      100,
       (threeContainer?.clientWidth || 0) / (threeContainer?.clientHeight || 0),
       0.1,
       1000
@@ -95,17 +37,25 @@ export const Three = () => {
 
     // 创建光线，添加进场景
     const ambientLight = new AmbientLight(0x404040);
-    const directionLight = new DirectionalLight(0xffffff, 0.5);
     ambientLight.position.set(50, 50, 50);
     scene.add(ambientLight);
+
+    const directionLight = new DirectionalLight(0xffffff, 1);
+    directionLight.position.set(0, 20, 20);
+    directionLight.castShadow = true;
     scene.add(directionLight);
 
-    // 一、导入立方体
-    // addCube(scene, camera);
-    // 二、导入模型
-    addFlower(scene);
-    // 调整摄像机位置
-    camera.position.z = 900;
+    if (new Date().getHours() % 2) {
+      // 一、导入立方体
+      addCube(scene, camera);
+      // 调整摄像机位置
+      camera.position.z = 3;
+    } else {
+      // 二、导入模型
+      addModel(scene);
+      camera.position.z = 5;
+      camera.position.y = 1.2;
+    }
 
     // 执行渲染D
     function animate() {
