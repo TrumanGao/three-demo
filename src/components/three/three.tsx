@@ -12,7 +12,10 @@ import Stat from "three/examples/jsm/libs/stats.module";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { setCube } from "../cube/cube";
 import { setModel as setModelCar } from "../car/car";
-import { setModel as setModelDragon } from "../dragon/dragon";
+import { setModel as setModelDinosaur } from "../dinosaur/dinosaur";
+import { setModel as setModelDragonSit } from "../dragon_sit/dragon_sit";
+import { setModel as setModelRobot } from "../robot/robot";
+import { setModel as setModelTiger } from "../tiger/tiger";
 
 export const Three = () => {
   useEffect(() => {
@@ -45,7 +48,7 @@ export const Three = () => {
     camera.position.z = 5;
 
     // 创建光线-环境光
-    const ambientLight = new AmbientLight(0x404040, 0.5);
+    const ambientLight = new AmbientLight(0x404040, 1);
     ambientLight.position.set(100, 100, 100);
     scene.add(ambientLight);
     // 创建光线-平行光
@@ -59,9 +62,20 @@ export const Three = () => {
       "#000000"
     );
     scene.add(directionalLightHelper);
+    // 创建光线-平行光2
+    const directionLight2 = new DirectionalLight(0xffffff, 0.5);
+    directionLight2.position.set(-100, 0, -100);
+    scene.add(directionLight2);
+    // 创建平行光2参考线
+    const directionalLightHelper2 = new DirectionalLightHelper(
+      directionLight2,
+      undefined,
+      "#000000"
+    );
+    scene.add(directionalLightHelper2);
 
     // 创建物体
-    const test: number = 3;
+    const test: number = 1;
     switch (test) {
       case 1:
         setCube().map((mesh) => scene.add(mesh));
@@ -70,7 +84,22 @@ export const Three = () => {
         setModelCar().then((models) => models.map((model) => scene.add(model)));
         break;
       case 3:
-        setModelDragon().then((models) =>
+        setModelDinosaur().then((models) =>
+          models.map((model) => scene.add(model))
+        );
+        break;
+      case 4:
+        setModelDragonSit().then((models) =>
+          models.map((model) => scene.add(model))
+        );
+        break;
+      case 5:
+        setModelRobot().then((models) =>
+          models.map((model) => scene.add(model))
+        );
+        break;
+      case 6:
+        setModelTiger().then((models) =>
           models.map((model) => scene.add(model))
         );
         break;

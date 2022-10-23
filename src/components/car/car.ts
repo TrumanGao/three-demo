@@ -9,7 +9,7 @@ import {
   GLTFLoader,
   type GLTF,
 } from "three/examples/jsm/loaders/GLTFLoader.js";
-import Model from "../../assets/models/presidential_state_car.glb";
+import Model from "../../assets/models/car.glb";
 
 // 二、导入模型
 export function setModel() {
