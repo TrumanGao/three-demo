@@ -8,8 +8,9 @@ import {
 } from "three";
 import "./three.less";
 import Stat from "three/examples/jsm/libs/stats.module";
-import { addModel } from "../model/model";
-import { addCube } from "../cube/cube";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { setModel } from "../model/model";
+import { setCube } from "../cube/cube";
 
 export const Three = () => {
   useEffect(() => {
@@ -49,12 +50,15 @@ export const Three = () => {
     directionLight.position.set(100, 100, 100);
     scene.add(directionLight);
 
-    if (new Date().getHours() % 1) {
-      // 一、导入立方体
-      addCube(scene, camera);
+    // 添加控制
+    new OrbitControls(camera, renderer.domElement);
+
+    // 创建物体
+    if (new Date().getHours() % 5) {
+      const cube = setCube();
+      scene.add(cube);
     } else {
-      // 二、导入模型
-      addModel(scene);
+      setModel().then((model) => scene.add(model));
     }
 
     // 调整摄像机位置
