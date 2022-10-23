@@ -7,9 +7,17 @@ export function addCube(_scene, _camera) {
   const cube = new Mesh(geometry, meterial);
   _scene.add(cube);
 
+  transformCube(cube);
+
   animateCube(cube);
 
   return cube;
+}
+
+// 立方体变形
+export function transformCube(_cube) {
+  // position; rotation; scale
+  _cube.rotation.set(1, 1, 1);
 }
 
 // 立方体运动

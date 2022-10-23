@@ -12,6 +12,9 @@ export function addModel(_scene) {
       (gltf) => {
         console.log("导入模型gltf: ", gltf);
         _scene.add(gltf.scene);
+
+        transformModel(gltf.scene);
+
         animateModel(gltf.scene);
 
         resolve(gltf.scene);
@@ -25,6 +28,13 @@ export function addModel(_scene) {
       }
     );
   });
+}
+
+// 模型变形
+export function transformModel(_model) {
+  // position; rotation; scale
+  _model.position.set(0, -1.2, -3);
+  _model.rotation.x = 0.02; // 换算为角度： val * (Math.PI / 180)
 }
 
 // 模型运动

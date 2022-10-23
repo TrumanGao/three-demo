@@ -29,33 +29,31 @@ export const Three = () => {
 
     // 创建摄像机
     const camera = new PerspectiveCamera(
-      100,
+      50,
       (threeContainer?.clientWidth || 0) / (threeContainer?.clientHeight || 0),
       0.1,
-      1000
+      2000
     );
 
     // 创建光线，添加进场景
     const ambientLight = new AmbientLight(0x404040);
-    ambientLight.position.set(50, 50, 50);
+    ambientLight.position.set(100, 100, 100);
     scene.add(ambientLight);
 
     const directionLight = new DirectionalLight(0xffffff, 1);
-    directionLight.position.set(0, 20, 20);
-    directionLight.castShadow = true;
+    directionLight.position.set(100, 100, 100);
     scene.add(directionLight);
 
-    if (new Date().getHours() % 2) {
+    if (new Date().getHours() % 1) {
       // 一、导入立方体
       addCube(scene, camera);
-      // 调整摄像机位置
-      camera.position.z = 3;
     } else {
       // 二、导入模型
       addModel(scene);
-      camera.position.z = 5;
-      camera.position.y = 1.2;
     }
+
+    // 调整摄像机位置
+    camera.position.z = 5;
 
     // 执行渲染D
     function animate() {
