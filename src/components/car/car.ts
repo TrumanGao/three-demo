@@ -1,16 +1,27 @@
-import { Group, AxesHelper } from "three";
+import {
+  Group,
+  AxesHelper,
+  PlaneGeometry,
+  MeshLambertMaterial,
+  Mesh,
+} from "three";
 import {
   GLTFLoader,
   type GLTF,
 } from "three/examples/jsm/loaders/GLTFLoader.js";
-// import Model from "../../assets/models/flower.glb";
-// import Model from "../../assets/models/black_dread.glb";
 import Model from "../../assets/models/presidential_state_car.glb";
 
 // 二、导入模型
 export function setModel() {
+  // 添加地面
+  const planeGeometry = new PlaneGeometry(5, 5);
+  const planeMeterial = new MeshLambertMaterial({ color: "#999999" });
+  const plane = new Mesh(planeGeometry, planeMeterial);
+  plane.rotation.x = -0.5 * Math.PI;
+  plane.position.y = -0.8;
+
   const loader = new GLTFLoader();
-  return new Promise((resolve: (value: Group) => void, reject) => {
+  return new Promise((resolve: (value: (Mesh | Group)[]) => void, reject) => {
     loader.load(
       Model,
       (gltf: GLTF) => {
@@ -23,7 +34,7 @@ export function setModel() {
 
         animateModel(gltf.scene);
 
-        resolve(gltf.scene);
+        resolve([plane, gltf.scene]);
       },
       (xhr) => {
         console.log("导入模型xhr: ", xhr);

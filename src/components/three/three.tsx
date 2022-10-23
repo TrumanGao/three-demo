@@ -10,8 +10,8 @@ import {
 import "./three.less";
 import Stat from "three/examples/jsm/libs/stats.module";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { setModel } from "../model/model";
 import { setCube } from "../cube/cube";
+import { setModel as setModelCar } from "../car/car";
 
 export const Three = () => {
   useEffect(() => {
@@ -60,11 +60,11 @@ export const Three = () => {
     scene.add(directionalLightHelper);
 
     // 创建物体
-    if (new Date().getHours() % 2) {
+    if (new Date().getHours() % 3) {
       const cube = setCube();
       scene.add(cube);
     } else {
-      setModel().then((model) => scene.add(model));
+      setModelCar().then((models) => models.map((model) => scene.add(model)));
     }
 
     // 添加控制
