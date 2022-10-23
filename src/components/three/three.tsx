@@ -5,6 +5,7 @@ import {
   WebGLRenderer,
   AmbientLight,
   DirectionalLight,
+  DirectionalLightHelper,
 } from "three";
 import "./three.less";
 import Stat from "three/examples/jsm/libs/stats.module";
@@ -40,18 +41,23 @@ export const Three = () => {
       0.1,
       2000
     );
+    camera.position.z = 5;
 
-    // 创建光线，添加进场景
+    // 创建光线-环境光
     const ambientLight = new AmbientLight(0x404040);
     ambientLight.position.set(100, 100, 100);
     scene.add(ambientLight);
-
+    // 创建光线-平行光
     const directionLight = new DirectionalLight(0xffffff, 1);
     directionLight.position.set(100, 100, 100);
     scene.add(directionLight);
-
-    // 添加控制
-    new OrbitControls(camera, renderer.domElement);
+    // 创建平行光参考线
+    const directionalLightHelper = new DirectionalLightHelper(
+      directionLight,
+      undefined,
+      "#000000"
+    );
+    scene.add(directionalLightHelper);
 
     // 创建物体
     if (new Date().getHours() % 2) {
@@ -61,8 +67,8 @@ export const Three = () => {
       setModel().then((model) => scene.add(model));
     }
 
-    // 调整摄像机位置
-    camera.position.z = 5;
+    // 添加控制
+    new OrbitControls(camera, renderer.domElement);
 
     // 执行渲染D
     function animate() {
