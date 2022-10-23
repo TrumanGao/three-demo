@@ -12,6 +12,7 @@ import Stat from "three/examples/jsm/libs/stats.module";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { setCube } from "../cube/cube";
 import { setModel as setModelCar } from "../car/car";
+import { setModel as setModelDragon } from "../dragon/dragon";
 
 export const Three = () => {
   useEffect(() => {
@@ -24,7 +25,7 @@ export const Three = () => {
       threeContainer?.clientWidth || 0,
       threeContainer?.clientHeight || 0
     );
-    renderer.setClearColor(0xffffff);
+    renderer.setClearColor("#f6f6f6");
     threeContainer?.appendChild(renderer.domElement);
 
     // 帧率检测
@@ -44,7 +45,7 @@ export const Three = () => {
     camera.position.z = 5;
 
     // 创建光线-环境光
-    const ambientLight = new AmbientLight(0x404040);
+    const ambientLight = new AmbientLight(0x404040, 0.5);
     ambientLight.position.set(100, 100, 100);
     scene.add(ambientLight);
     // 创建光线-平行光
@@ -60,11 +61,21 @@ export const Three = () => {
     scene.add(directionalLightHelper);
 
     // 创建物体
-    if (new Date().getHours() % 3) {
-      const cube = setCube();
-      scene.add(cube);
-    } else {
-      setModelCar().then((models) => models.map((model) => scene.add(model)));
+    const test: number = 3;
+    switch (test) {
+      case 1:
+        setCube().map((mesh) => scene.add(mesh));
+        break;
+      case 2:
+        setModelCar().then((models) => models.map((model) => scene.add(model)));
+        break;
+      case 3:
+        setModelDragon().then((models) =>
+          models.map((model) => scene.add(model))
+        );
+        break;
+      default:
+        break;
     }
 
     // 添加控制
