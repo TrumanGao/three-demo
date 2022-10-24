@@ -78,7 +78,7 @@ export const Three = () => {
 
     // 创建物体
     async function setModel(){
-        const test:number = 6
+        const test:number = 5
         let models: unknown[] | Promise<unknown[]> = []
         switch (test) {
             case 1:
@@ -113,8 +113,6 @@ export const Three = () => {
                     scene.add(model.data);
                 break;
                 case 'GLTF':
-                    scene.add(model.data.scene);
-
                     if(model.data.animations?.length){
                         const mixer = new AnimationMixer(model.data.scene)
                         mixers.push(mixer); 
@@ -124,6 +122,7 @@ export const Three = () => {
                             action.play()
                         })
                     }
+                    scene.add(model.data.scene);
                 break;
                 default:
                 break;
