@@ -6,6 +6,8 @@ import {
   AmbientLight,
   DirectionalLight,
   DirectionalLightHelper,
+  AnimationMixer,
+  Clock
 } from "three";
 import "./three.less";
 import Stat from "three/examples/jsm/libs/stats.module";
@@ -75,48 +77,80 @@ export const Three = () => {
     scene.add(directionalLightHelper2);
 
     // 创建物体
-    const test: number = 1;
-    switch (test) {
-      case 1:
-        setCube().map((mesh) => scene.add(mesh));
-        break;
-      case 2:
-        setModelCar().then((models) => models.map((model) => scene.add(model)));
-        break;
-      case 3:
-        setModelDinosaur().then((models) =>
-          models.map((model) => scene.add(model))
-        );
-        break;
-      case 4:
-        setModelDragonSit().then((models) =>
-          models.map((model) => scene.add(model))
-        );
-        break;
-      case 5:
-        setModelRobot().then((models) =>
-          models.map((model) => scene.add(model))
-        );
-        break;
-      case 6:
-        setModelTiger().then((models) =>
-          models.map((model) => scene.add(model))
-        );
-        break;
-      default:
-        break;
+    async function setModel(){
+        const test:number = 6
+        let models: unknown[] | Promise<unknown[]> = []
+        switch (test) {
+            case 1:
+            models = setCube();
+              break;
+            case 2:
+            models = await setModelCar();
+              break;
+            case 3:
+            models = await setModelDinosaur();
+              break;
+            case 4:
+            models = await setModelDragonSit();
+              break;
+            case 5:
+            models = await setModelRobot();
+              break;
+            case 6:
+            models = await setModelTiger();
+              break;
+            default: 
+              break;
+          }
+        return models
     }
 
-    // 添加控制
-    new OrbitControls(camera, renderer.domElement);
+    setModel().then(models => {
+        const mixers: undefined[] | AnimationMixer[] = []
+        models.map(model => {
+            switch (model.type) {
+                case 'Mesh':
+                    scene.add(model.data);
+                break;
+                case 'GLTF':
+                    scene.add(model.data.scene);
 
-    // 执行渲染D
-    function animate() {
-      requestAnimationFrame(animate);
-      renderer.render(scene, camera);
-      stat.update();
-    }
-    animate();
+                    if(model.data.animations?.length){
+                        const mixer = new AnimationMixer(model.data.scene)
+                        mixers.push(mixer); 
+                        model.data.animations.map(animation => {
+                            const action = mixer.clipAction(animation)
+                            console.log('action', action)
+                            action.play()
+                        })
+                    }
+                break;
+                default:
+                break;
+            } 
+        })
+
+        
+        // 添加控制
+        new OrbitControls(camera, renderer.domElement);
+
+        // 执行渲染D
+        function animate() {
+            renderer.render(scene, camera);
+            stat.update();
+            if(mixers.length){
+
+                mixers.map(mixer=>{
+                    const clock = new Clock()
+                    const delta = clock.getDelta();
+                    
+                    mixer.update(delta)
+                })
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    }) 
   }, []);
 
   return <div className="three-container"></div>;

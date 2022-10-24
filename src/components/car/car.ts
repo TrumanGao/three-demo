@@ -21,7 +21,7 @@ export function setModel() {
   plane.position.y = -0.8;
 
   const loader = new GLTFLoader();
-  return new Promise((resolve: (value: (Mesh | Group)[]) => void, reject) => {
+  return new Promise((resolve: (value: unknown[]) => void, reject) => {
     loader.load(
       Model,
       (gltf: GLTF) => {
@@ -34,7 +34,7 @@ export function setModel() {
 
         animateModel(gltf.scene);
 
-        resolve([plane, gltf.scene]);
+        resolve([{data: plane, type: 'Mesh'}, {data:gltf, type:'GLTF'}]);
       },
       (xhr) => {
         console.log("导入模型xhr: ", xhr);

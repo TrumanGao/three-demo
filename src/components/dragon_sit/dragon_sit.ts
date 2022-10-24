@@ -8,7 +8,7 @@ import Model from "../../assets/models/dragon_sit.glb";
 // 二、导入模型
 export function setModel() {
   const loader = new GLTFLoader();
-  return new Promise((resolve: (value: (Mesh | Group)[]) => void, reject) => {
+  return new Promise((resolve: (value: unknown[]) => void, reject) => {
     loader.load(
       Model,
       (gltf: GLTF) => {
@@ -21,7 +21,7 @@ export function setModel() {
 
         animateModel(gltf.scene);
 
-        resolve([gltf.scene]);
+        resolve([{data:gltf, type:'GLTF'}]);
       },
       (xhr) => {
         console.log("导入模型xhr: ", xhr);

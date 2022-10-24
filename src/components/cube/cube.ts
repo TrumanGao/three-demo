@@ -13,7 +13,7 @@ export function setCube() {
 
   animateCube(cube);
 
-  return [cube];
+  return [{data:cube, type: 'Mesh'}];
 }
 
 // 立方体变形
