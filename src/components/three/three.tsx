@@ -22,7 +22,7 @@ import { setModel as setModelDinosaur } from "../dinosaur/dinosaur";
 import { setModel as setModelDragonSit } from "../dragon_sit/dragon_sit";
 import { setModel as setModelRobot } from "../robot/robot";
 import { setModel as setModelTiger } from "../tiger/tiger";
-import { setModel as setModelTestGlb } from "../test-glb/3";
+import { setModel as setModelTestGlb } from "../test-glb/test-glb";
 
 export const Three = () => {
   useEffect(() => {
@@ -38,7 +38,7 @@ export const Three = () => {
       threeContainer?.clientWidth || 0,
       threeContainer?.clientHeight || 0
     );
-    renderer.setClearColor("#f6f6f6");
+    renderer.setClearColor("#999999");
     threeContainer?.appendChild(renderer.domElement);
 
     // 帧率检测
@@ -71,7 +71,7 @@ export const Three = () => {
       undefined,
       "#000000"
     );
-    scene.add(directionalLightHelper);
+    // scene.add(directionalLightHelper);
     // 创建光线-平行光2
     const directionLight2 = new DirectionalLight(0xffffff, 0.5);
     directionLight2.position.set(-100, 0, -100);
@@ -82,7 +82,7 @@ export const Three = () => {
       undefined,
       "#000000"
     );
-    scene.add(directionalLightHelper2);
+    // scene.add(directionalLightHelper2);
 
     // 创建皮肤
     const pmremGenerator = new PMREMGenerator(renderer);
