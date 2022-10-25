@@ -133,10 +133,8 @@ export const Three = () => {
               const mixer = new AnimationMixer(model.data.scene);
               mixers.push(mixer);
               model.data.animations.map((animation) => {
-                const action = mixer.clipAction(
-                  subclip(animation, "A", 0, 100)
-                );
-                action.play().setLoop(LoopRepeat, 99);
+                animation = mixer.clipAction(subclip(animation, "A", 0, 100));
+                animation.play().setLoop(LoopRepeat, 99);
               });
             }
             scene.add(model.data.scene);
