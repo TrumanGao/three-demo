@@ -15,6 +15,7 @@ import "./three.less";
 import Stat from "three/examples/jsm/libs/stats.module";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment";
+import { subclip } from "three/src/animation/AnimationUtils";
 
 import { setCube } from "../cube/cube";
 import { setModel as setModelCar } from "../car/car";
@@ -132,7 +133,9 @@ export const Three = () => {
               const mixer = new AnimationMixer(model.data.scene);
               mixers.push(mixer);
               model.data.animations.map((animation) => {
-                const action = mixer.clipAction(animation);
+                const action = mixer.clipAction(
+                  subclip(animation, "A", 0, 100)
+                );
                 action.play().setLoop(LoopRepeat, 99);
               });
             }

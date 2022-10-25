@@ -40,7 +40,7 @@ export function setModel() {
         ]);
       },
       (xhr) => {
-        console.log("导入模型xhr: ", xhr);
+        // console.log("导入模型xhr: ", xhr);
       },
       (error) => {
         console.log("导入模型error: ", error);
