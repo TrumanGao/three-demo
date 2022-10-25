@@ -7,11 +7,15 @@ import {
   DirectionalLight,
   DirectionalLightHelper,
   AnimationMixer,
-  Clock
+  Clock,
+  MeshMatcapMaterial,
+  PMREMGenerator,
 } from "three";
 import "./three.less";
 import Stat from "three/examples/jsm/libs/stats.module";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment";
+
 import { setCube } from "../cube/cube";
 import { setModel as setModelCar } from "../car/car";
 import { setModel as setModelDinosaur } from "../dinosaur/dinosaur";
@@ -21,6 +25,9 @@ import { setModel as setModelTiger } from "../tiger/tiger";
 
 export const Three = () => {
   useEffect(() => {
+    // 创建时钟
+    const clock = new Clock();
+
     // 获取容器
     const threeContainer = document.querySelector(".three-container");
 
@@ -76,80 +83,80 @@ export const Three = () => {
     );
     scene.add(directionalLightHelper2);
 
+    // 创建皮肤
+    const pmremGenerator = new PMREMGenerator(renderer);
+    scene.environment = pmremGenerator.fromScene(new RoomEnvironment()).texture;
+
     // 创建物体
-    async function setModel(){
-        const test:number = 5
-        let models: unknown[] | Promise<unknown[]> = []
-        switch (test) {
-            case 1:
-            models = setCube();
-              break;
-            case 2:
-            models = await setModelCar();
-              break;
-            case 3:
-            models = await setModelDinosaur();
-              break;
-            case 4:
-            models = await setModelDragonSit();
-              break;
-            case 5:
-            models = await setModelRobot();
-              break;
-            case 6:
-            models = await setModelTiger();
-              break;
-            default: 
-              break;
-          }
-        return models
+    async function setModel() {
+      const test: number = 5;
+      let models: unknown[] | Promise<unknown[]> = [];
+      switch (test) {
+        case 1:
+          models = setCube();
+          break;
+        case 2:
+          models = await setModelCar();
+          break;
+        case 3:
+          models = await setModelDinosaur();
+          break;
+        case 4:
+          models = await setModelDragonSit();
+          break;
+        case 5:
+          models = await setModelRobot();
+          break;
+        case 6:
+          models = await setModelTiger();
+          break;
+        default:
+          break;
+      }
+      return models;
     }
 
-    setModel().then(models => {
-        const mixers: undefined[] | AnimationMixer[] = []
-        models.map(model => {
-            switch (model.type) {
-                case 'Mesh':
-                    scene.add(model.data);
-                break;
-                case 'GLTF':
-                    if(model.data.animations?.length){
-                        const mixer = new AnimationMixer(model.data.scene)
-                        mixers.push(mixer); 
-                        model.data.animations.map(animation => {
-                            const action = mixer.clipAction(animation)
-                            console.log('action', action)
-                            action.play()
-                        })
-                    }
-                    scene.add(model.data.scene);
-                break;
-                default:
-                break;
-            } 
-        })
-
-        
-        // 添加控制
-        new OrbitControls(camera, renderer.domElement);
-
-        // 执行渲染D
-        function animate() {
-            renderer.render(scene, camera);
-            stat.update();
-            if(mixers.length){
-
-                mixers.map(mixer=>{
-                    const clock = new Clock()
-                    const delta = clock.getDelta();
-                    
-                    mixer.update(delta)
-                })
+    setModel().then((models) => {
+      const mixers: undefined[] | AnimationMixer[] = [];
+      models.map((model) => {
+        switch (model.type) {
+          case "Mesh":
+            scene.add(model.data);
+            break;
+          case "GLTF":
+            if (model.data.animations?.length) {
+              const mixer = new AnimationMixer(model.data.scene);
+              mixers.push(mixer);
+              model.data.animations.map((animation) => {
+                const action = mixer.clipAction(animation);
+                console.log("action", action);
+                action.play();
+              });
             }
-            requestAnimationFrame(animate);
+            scene.add(model.data.scene);
+            break;
+          default:
+            break;
         }
-        animate();
-    }) 
+      });
+
+      // 添加控制
+      new OrbitControls(camera, renderer.domElement);
+
+      // 执行渲染D
+      function animate() {
+        renderer.render(scene, camera);
+        stat.update();
+        if (mixers.length) {
+          mixers.map((mixer) => {
+            mixer.update(clock.getDelta());
+          });
+        }
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    });
   }, []);
 
   return <div className="three-container"></div>;
