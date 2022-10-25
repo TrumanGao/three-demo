@@ -8,9 +8,9 @@ import {
   DirectionalLightHelper,
   AnimationMixer,
   Clock,
-  MeshMatcapMaterial,
   PMREMGenerator,
 } from "three";
+import { LoopOnce, LoopRepeat } from "three/src/constants";
 import "./three.less";
 import Stat from "three/examples/jsm/libs/stats.module";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -22,6 +22,7 @@ import { setModel as setModelDinosaur } from "../dinosaur/dinosaur";
 import { setModel as setModelDragonSit } from "../dragon_sit/dragon_sit";
 import { setModel as setModelRobot } from "../robot/robot";
 import { setModel as setModelTiger } from "../tiger/tiger";
+import { setModel as setModelTestGlb } from "../test-glb/3";
 
 export const Three = () => {
   useEffect(() => {
@@ -89,7 +90,7 @@ export const Three = () => {
 
     // 创建物体
     async function setModel() {
-      const test: number = 5;
+      const test: number = 7;
       let models: unknown[] | Promise<unknown[]> = [];
       switch (test) {
         case 1:
@@ -110,6 +111,9 @@ export const Three = () => {
         case 6:
           models = await setModelTiger();
           break;
+        case 7:
+          models = await setModelTestGlb();
+          break;
         default:
           break;
       }
@@ -129,8 +133,7 @@ export const Three = () => {
               mixers.push(mixer);
               model.data.animations.map((animation) => {
                 const action = mixer.clipAction(animation);
-                console.log("action", action);
-                action.play();
+                action.play().setLoop(LoopRepeat, 99);
               });
             }
             scene.add(model.data.scene);
